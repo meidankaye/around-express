@@ -7,7 +7,7 @@ router.get('/users', (req, res) => {
 });
 
 router.get('/users/:id', (req, res) => {
-  res.send('User ${req.params.id}');
+  res.send(`User ${req.params.id}`);
 });
 
 module.exports = router;
