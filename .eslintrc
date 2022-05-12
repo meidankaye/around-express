@@ -5,6 +5,8 @@
     "no-template-curly-in-string": "off",
     "no-console": "off",
     "no-underscore-dangle": "off",
-    "import/newline-after-import": "off"
+    "import/newline-after-import": "off",
+    "eol-last": "off",
+    "no-trailing-spaces": "off"
   }
 }
