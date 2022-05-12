@@ -2,6 +2,7 @@ const path = require('path');
 const { getJsonFromFile } = require('../helpers/files');
 
 const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
+
 const getUsers = async (req, res) => {
   const users = await getJsonFromFile(usersFilePath);
 
@@ -11,7 +12,7 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const users = await getJsonFromFile(usersFilePath);
-    const userId = users.find((user) => user._id === req.params._id);
+    const userId = users.find((user) => user._id === req.params.id);
 
     if (!userId) {
       res.status(404).send({ message: 'User ID not found' });
