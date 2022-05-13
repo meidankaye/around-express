@@ -4,9 +4,13 @@ const { getJsonFromFile } = require('../helpers/files');
 const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
 
 const getUsers = async (req, res) => {
-  const users = await getJsonFromFile(usersFilePath);
+  try {
+    const users = await getJsonFromFile(usersFilePath);
 
-  res.send(users);
+    res.send(users);
+  } catch (error) {
+    res.status(500).send({ message: 'An error has occurred on the server' });
+  }
 };
 
 const getUserById = async (req, res) => {
@@ -19,7 +23,7 @@ const getUserById = async (req, res) => {
     } else {
       res.status(200).send(userId);
     }
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({ message: 'An error has occurred on the server' });
   }
 };
