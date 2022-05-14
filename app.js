@@ -7,7 +7,7 @@ const cardsRouter = require('./routes/cards');
 app.use(usersRouter);
 app.use(cardsRouter);
 
-app.get('/', (req, res) => {
+app.use('/', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });
 });
 
