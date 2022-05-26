@@ -1,8 +1,4 @@
-// const path = require('path');
 const User = require('../models/user');
-// const { getJsonFromFile } = require('../helpers/files');
-
-// const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
 
 const getUsers = async (req, res) => {
   try {
@@ -16,7 +12,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
 
     if (!user) {
       res.status(404).send({ message: 'User ID not found' });
@@ -27,11 +23,18 @@ const getUserById = async (req, res) => {
   }
 };
 
-// const createUser = async (req, res) => {
+const createUser = async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
 
-// ;}
+    res.send(newUser);
+  } catch (error) {
+    res.status(500).send({ message: 'An error has occurred on the server' });
+  }
+};
 
 module.exports = {
   getUsers,
   getUserById,
+  createUser,
 };
