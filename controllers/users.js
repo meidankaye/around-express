@@ -16,17 +16,20 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findOne({ id: req.params.id });
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       res.status(404).send({ message: 'User ID not found' });
-    } else {
-      res.status(200).send(user);
     }
+    res.status(200).send(user);
   } catch (error) {
     res.status(500).send({ message: 'An error has occurred on the server' });
   }
 };
+
+// const createUser = async (req, res) => {
+
+// ;}
 
 module.exports = {
   getUsers,
