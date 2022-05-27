@@ -19,8 +19,22 @@ const createUser = (req, res) => {
     .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
 
+const updateUserProfile = (req, res) => {
+  User.findByIdAndUpdate(req.user._id, { name: req.name, about: req.about })
+    .then((newData) => res.send(newData))
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+};
+
+const updateUserAvatar = (req, res) => {
+  User.findByIdAndUpdate(req.user._id, { avatar: '' })
+    .then((newAvatar) => res.send(newAvatar))
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+};
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
+  updateUserProfile,
+  updateUserAvatar,
 };
