@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Card = require('../models/card');
 
 const getCards = (req, res) => {
@@ -7,13 +8,20 @@ const getCards = (req, res) => {
 };
 
 const createCard = (req, res) => {
-  console.log(req.user._id);
   Card.create(req.body)
     .then((newCard) => res.send(newCard))
-    .catch((error) => res.status(500).send(console.log(error)));
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+};
+
+const deleteCard = (req, res) => {
+  Card.findByIdAndRemove(mongoose.Types.ObjectId(req.params.cardId))
+    .orFail()
+    .then((card) => res.send(card))
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
 
 module.exports = {
   getCards,
   createCard,
+  deleteCard,
 };
