@@ -11,7 +11,7 @@ const cardSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(v) {
-        return /(https?:\/\/)[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/gm.test(v);
+        return /(https?:\/\/)(www\.)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+\.*[.\-A-Za-z0-9+&@#/%=~_|?#]/gm.test(v);
       },
     },
     required: true,

@@ -3,6 +3,11 @@ const Card = require('../models/card');
 
 const getCards = (req, res) => {
   Card.find({})
+    .orFail(() => {
+      const error = new Error('No card found with that id');
+      error.statusCode = 404;
+      throw error;
+    })
     .then((cards) => res.send(cards))
     .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
@@ -15,7 +20,11 @@ const createCard = (req, res) => {
 
 const deleteCard = (req, res) => {
   Card.findByIdAndRemove(mongoose.Types.ObjectId(req.params.cardId))
-    .orFail()
+    .orFail(() => {
+      const error = new Error('No card found with that id');
+      error.statusCode = 404;
+      throw error;
+    })
     .then((card) => res.send(card))
     .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
