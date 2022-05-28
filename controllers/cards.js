@@ -9,13 +9,32 @@ const getCards = (req, res) => {
       throw error;
     })
     .then((cards) => res.send(cards))
-    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'NotValid Data' });
+      }
+      if (error.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'Card not found' });
+      } else {
+        res
+          .status(500)
+          .send({ message: 'An error has occurred on the server' });
+      }
+    });
 };
 
 const createCard = (req, res) => {
   Card.create(req.body)
     .then((newCard) => res.send(newCard))
-    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send(error);
+      } else {
+        res
+          .status(500)
+          .send({ message: 'An error has occurred on the server' });
+      }
+    });
 };
 
 const deleteCard = (req, res) => {
@@ -26,22 +45,57 @@ const deleteCard = (req, res) => {
       throw error;
     })
     .then((card) => res.send(card))
-    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'NotValid Data' });
+      }
+      if (error.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'Card not found' });
+      } else {
+        res
+          .status(500)
+          .send({ message: 'An error has occurred on the server' });
+      }
+    });
 };
 
 const likeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $addToSet: { likes: req.user._id } },
   { new: true },
-).then((card) => res.send(card))
-  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+)
+  .then((card) => res.send(card))
+  .catch((error) => {
+    if (error.name === 'CastError') {
+      res.status(400).send({ message: 'NotValid Data' });
+    }
+    if (error.name === 'DocumentNotFoundError') {
+      res.status(404).send({ message: 'Card not found' });
+    } else {
+      res
+        .status(500)
+        .send({ message: 'An error has occurred on the server' });
+    }
+  });
 
 const dislikeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $pull: { likes: req.user._id } },
   { new: true },
-).then((card) => res.send(card))
-  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+)
+  .then((card) => res.send(card))
+  .catch((error) => {
+    if (error.name === 'CastError') {
+      res.status(400).send({ message: 'NotValid Data' });
+    }
+    if (error.name === 'DocumentNotFoundError') {
+      res.status(404).send({ message: 'Card not found' });
+    } else {
+      res
+        .status(500)
+        .send({ message: 'An error has occurred on the server' });
+    }
+  });
 
 module.exports = {
   getCards,

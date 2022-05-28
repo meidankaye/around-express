@@ -7,6 +7,8 @@
     "no-underscore-dangle": "off",
     "import/newline-after-import": "off",
     "eol-last": "off",
-    "no-trailing-spaces": "off"
+    "no-trailing-spaces": "off",
+    "max-len": "off",
+    "function-paren-newline": "off"
   }
 }
