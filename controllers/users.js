@@ -47,8 +47,7 @@ const updateUserProfile = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name: req.body.name, about: req.body.about },
-    { new: true },
-    { runValidators: true },
+    { new: true, runValidators: true },
   )
     .then((newData) => res.send(newData))
     .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }),
@@ -58,8 +57,7 @@ const updateUserProfile = (req, res) => {
 const updateUserAvatar = (req, res) => {
   User.findByIdAndUpdate(req.user._id,
     { avatar: req.body.avatar },
-    { new: true },
-    { runValidators: true },
+    { new: true, runValidators: true },
   )
     .then((newAvatar) => res.send(newAvatar))
     .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }),
