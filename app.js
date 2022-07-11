@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const { PORT = 3000 } = process.env;
@@ -11,6 +12,12 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(cors());
 app.options('*', cors());
 app.use(express.json());
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
 
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
