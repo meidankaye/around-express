@@ -49,18 +49,14 @@ const login = (req, res, next) => {
         }
         const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
         res.send({ token });
-      });
+      }).catch(next);
     })
     .catch(next);
 };
 
 const createUser = (req, res, next) => {
   const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
+    name, about, avatar, email, password,
   } = req.body;
   if (!password) throw new ValidationError('Missing Password.');
   bcrypt.hash(password, 10).then((hash) => {
@@ -77,7 +73,8 @@ const createUser = (req, res, next) => {
         name: newUser.name,
         about: newUser.about,
         avatar: newUser.avatar,
-      }))
+      }),
+      )
       .catch((error) => {
         if (error.code === 11000) {
           next(new ConflictError('User already exists.'));
@@ -102,7 +99,8 @@ const updateUserProfile = (req, res, next) => {
 
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id,
+  User.findByIdAndUpdate(
+    req.user._id,
     { avatar },
     { new: true, runValidators: true },
   )
